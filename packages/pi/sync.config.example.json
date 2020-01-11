@@ -1,0 +1,6 @@
+{
+  "username": "<username>",
+  "hostname": "<hostname or IP address of your Pi>",
+  "directory": "<parent directory on Pi into which the repo was cloned>",
+  "quiet": false
+}

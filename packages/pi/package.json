@@ -1,0 +1,26 @@
+{
+  "name": "@rpi-pixel-art/pi",
+  "version": "1.0.0",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rm -rf ./dist",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build",
+    "sync-changes": "echo 'Changes will be pushed to Raspberry Pi' && nodemon --config nodemon.sync.json"
+  },
+  "devDependencies": {
+    "@types/rsync": "^0.4.30",
+    "chalk": "^3.0.0",
+    "nodemon": "^2.0.2",
+    "rsync": "^0.6.1",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "rpi-led-matrix": "^1.7.2"
+  }
+}
