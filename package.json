@@ -1,0 +1,14 @@
+{
+  "name": "rpi-pixel-art",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "clean": "lerna run clean",
+    "build": "lerna run build",
+    "pub": "lerna publish"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2",
+    "typescript": "^3.7.4"
+  }
+}
