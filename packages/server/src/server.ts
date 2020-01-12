@@ -21,17 +21,60 @@ wss.on("connection", (ws: ExtWebSocket) => {
   })
 })
 
+type Color = {
+  r: number
+  g: number
+  b: number
+}
+
+type MatrixPixel = {
+  x: number
+  y: number
+  color: Color
+}
+
+const MATRIX_ROWS = 16
+const MATRIX_COLS = 32
+
+const getCoords = (position: number) => {
+  const y = Math.floor(position / MATRIX_COLS)
+  const x = position - y * MATRIX_COLS
+  return { x, y }
+}
+
+const genColorValue = () => {
+  const r = Math.random()
+  return Math.ceil(r * 255)
+}
+
+const genColor = (): Color => ({
+  r: genColorValue(),
+  g: genColorValue(),
+  b: genColorValue()
+})
+
 setInterval(() => {
   wss.clients.forEach((ws: ExtWebSocket) => {
     if (!ws.isAlive) return ws.terminate()
 
-    // ws.isAlive = false
-    ws.ping("Are you listening?!", false)
+    const pixels: MatrixPixel[] = Array.from(
+      new Array(MATRIX_COLS * MATRIX_ROWS).keys()
+    ).map(position => {
+      const coords = getCoords(position)
+      return {
+        x: coords.x,
+        y: coords.y,
+        color: genColor()
+      }
+    })
 
-    ws.send("Are you listening?!")
+    ws.send(JSON.stringify(pixels))
+    // ws.isAlive = false
+    //ws.ping("Are you listening?!", false)
+
     console.log("Sending ping")
   })
-}, 10000)
+}, 3000)
 
 //start our server
 server.listen(process.env.PORT || 8999, () => {
