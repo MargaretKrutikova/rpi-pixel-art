@@ -1,6 +1,6 @@
 {
   "ext": "ts,json",
-  "exec": "node ./scripts/sync",
+  "exec": "node sync",
   "events": {},
   "watch": ["src/**", "package.json", "binding.gyp"]
 }

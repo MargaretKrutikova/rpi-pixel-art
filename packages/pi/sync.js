@@ -11,7 +11,7 @@ const {
   hostname,
   directory,
   quiet = false
-} = require("../sync.config")
+} = require("./sync.config")
 
 const chalk = require("chalk")
 const Rsync = require("rsync")

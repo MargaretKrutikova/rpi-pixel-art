@@ -7,6 +7,7 @@
     "dist"
   ],
   "scripts": {
+    "start": "ts-node-dev --no-notify src/index.ts",
     "build": "npm run clean && npm run compile",
     "clean": "rm -rf ./dist",
     "compile": "tsc -p tsconfig.build.json",
@@ -15,12 +16,15 @@
   },
   "devDependencies": {
     "@types/rsync": "^0.4.30",
+    "@types/ws": "^6.0.4",
     "chalk": "^3.0.0",
     "nodemon": "^2.0.2",
     "rsync": "^0.6.1",
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "rpi-led-matrix": "^1.7.2"
+    "rpi-led-matrix": "^1.7.2",
+    "ws": "^7.2.1"
   }
 }
