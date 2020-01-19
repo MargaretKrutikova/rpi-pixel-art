@@ -1,6 +1,8 @@
 import express from "express"
 import * as http from "http"
 import WebSocket from "ws"
+import bodyParser from "body-parser"
+import cors from "cors"
 
 const app = express()
 
@@ -47,38 +49,55 @@ const genColorValue = () => {
   return Math.ceil(r * 255)
 }
 
-const genColor = (): Color => ({
-  r: genColorValue(),
-  g: genColorValue(),
-  b: genColorValue()
-})
-
-setInterval(() => {
+const sendPixel = (pixel: MatrixPixel) => {
+  const pixels = [pixel]
   wss.clients.forEach((ws: ExtWebSocket) => {
-    if (!ws.isAlive) return ws.terminate()
-
-    const pixels: MatrixPixel[] = Array.from(
-      new Array(MATRIX_COLS * MATRIX_ROWS).keys()
-    ).map(position => {
-      const coords = getCoords(position)
-      return {
-        x: coords.x,
-        y: coords.y,
-        color: genColor()
-      }
-    })
-
     ws.send(JSON.stringify(pixels))
-    // ws.isAlive = false
-    //ws.ping("Are you listening?!", false)
-
-    console.log("Sending ping")
   })
-}, 3000)
+}
 
 //start our server
 server.listen(process.env.PORT || 8999, () => {
   const address = server.address()
   const port = (address as WebSocket.AddressInfo).port
   console.log(`Server started on port ${port} :)`)
+})
+
+//---------------------------------------------------
+
+const port = 8095 // default port to listen
+
+// define a route handler for the default home page
+app.get("/", (_, res) => {
+  res.send("Hello world!")
+})
+
+app.use(bodyParser.json()) // to support JSON-encoded bodies
+app.use(
+  bodyParser.urlencoded({
+    // to support URL-encoded bodies
+    extended: true
+  })
+)
+app.use(cors())
+
+app.post("/pixel", (req, res) => {
+  const pixel: MatrixPixel = {
+    x: parseInt(req.body.x),
+    y: parseInt(req.body.y),
+    color: {
+      r: parseInt(req.body.r),
+      g: parseInt(req.body.g),
+      b: parseInt(req.body.b)
+    }
+  }
+
+  console.log(pixel)
+  res.status(200).json({ success: true })
+  sendPixel(pixel)
+})
+
+// start the Express server
+app.listen(port, () => {
+  console.log(`server started at http://localhost:${port}`)
 })
