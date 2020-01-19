@@ -1,5 +1,12 @@
+open State;
+
+let selector = (model: state) => model.selectedColor;
+
 [@react.component]
-let make = (~dispatch, ~selectedColor) => {
+let make = () => {
+  let selectedColor = Store.useSelector(selector);
+  let dispatch = Store.useDispatch();
+
   <div className="flex flex-wrap max-w-xs self-start">
     {Settings.availableColors
      ->Belt.Array.mapWithIndex((ind, rgbColor) =>
@@ -17,7 +24,7 @@ let make = (~dispatch, ~selectedColor) => {
              Cn.ifTrue("border-gray-500 ", selectedColor != rgbColor),
              Cn.ifTrue("shadow-outline", selectedColor == rgbColor),
            ])}
-           onClick={_ => dispatch(State.ColorSelected(rgbColor))}
+           onClick={_ => dispatch(ColorSelected(rgbColor))}
          />
        )
      ->React.array}

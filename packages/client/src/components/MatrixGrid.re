@@ -1,4 +1,8 @@
 open Settings;
+open State;
+[@bs.val] external setTimeout: (unit => unit, int) => float = "setTimeout";
+
+let selector = (model: state) => model.matrix;
 
 let pixelToCss = (~row, ~col, matrix) => {
   let coords = Coords.fromGrid(~row, ~col);
@@ -17,8 +21,13 @@ let pixelToCss = (~row, ~col, matrix) => {
 };
 
 [@react.component]
-let make = (~matrix, ~dispatch, ~onPixelUpdate) => {
-  <div>
+let make = () => {
+  let matrix = Store.useSelector(selector);
+  let dispatch = Store.useDispatch();
+
+  <div
+    onMouseDown={_ => dispatch(State.MousePressed)}
+    onMouseUp={_ => dispatch(MouseReleased)}>
     {Belt.Array.range(0, Dimensions.rows - 1)
      ->Belt.Array.map(row =>
          <div className="flex" key={row |> string_of_int}>
@@ -29,8 +38,12 @@ let make = (~matrix, ~dispatch, ~onPixelUpdate) => {
                   className={matrix |> pixelToCss(~row, ~col)}
                   onClick={_ => {
                     let coords = Coords.fromGrid(~row, ~col);
-                    dispatch(State.PixelClicked(coords));
-                    onPixelUpdate(coords);
+                    dispatch(PixelClicked(coords));
+                  }}
+                  onMouseMove={_ => {
+                    let coords = Coords.fromGrid(~row, ~col);
+                    setTimeout(() => dispatch(MouseMoved(coords)), 0)
+                    |> ignore;
                   }}
                 />
               )
