@@ -25,13 +25,12 @@ let setPixel = (pixel, matrix) => {
   switch (matrix |> getPixel(pixel.coords)) {
   | None => matrix->Belt.Array.concat([|pixel|])
   | Some(p) =>
-    Js.log(p);
     if (p.color === pixel.color) {
       matrix;
     } else {
       matrix
       ->Belt.Array.keep(p => !Coords.areEqual(p.coords, pixel.coords))
       ->Belt.Array.concat([|pixel|]);
-    };
+    }
   };
 };
