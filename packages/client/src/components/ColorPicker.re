@@ -3,11 +3,11 @@ open State;
 let selector = (model: state) => model.selectedColor;
 
 [@react.component]
-let make = () => {
+let make = (~className="") => {
   let selectedColor = Store.useSelector(selector);
   let dispatch = Store.useDispatch();
 
-  <div className="flex flex-wrap max-w-xs self-start">
+  <div className={Cn.make(["flex flex-wrap max-w-xs self-start", className])}>
     {Settings.availableColors
      ->Belt.Array.mapWithIndex((ind, rgbColor) =>
          <div
