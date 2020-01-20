@@ -21,5 +21,16 @@ let unsetPixel = (pixel, matrix) =>
     matrix->Belt.Array.keep(p => !Coords.areEqual(p.coords, pixel.coords))
   };
 
-let setPixel = (pixel, matrix) =>
-  (matrix |> unsetPixel(pixel))->Belt.Array.concat([|pixel|]);
+let setPixel = (pixel, matrix) => {
+  switch (matrix |> getPixel(pixel.coords)) {
+  | None => matrix->Belt.Array.concat([|pixel|])
+  | Some(p) =>
+    if (p.color === pixel.color) {
+      matrix;
+    } else {
+      matrix
+      ->Belt.Array.keep(p => !Coords.areEqual(p.coords, pixel.coords))
+      ->Belt.Array.concat([|pixel|]);
+    }
+  };
+};

@@ -21,7 +21,8 @@
     "@glennsl/bs-json",
     "bs-css",
     "bs-fetch",
-    "re-classnames"
+    "re-classnames",
+    "reason-react-elmish"
   ],
   "refmt": 3
 }
