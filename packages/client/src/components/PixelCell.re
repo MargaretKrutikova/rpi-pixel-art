@@ -4,7 +4,7 @@ let pixelToCss = color => {
   let pixelColor =
     color->Belt.Option.mapWithDefault(
       Settings.defaultColor,
-      Color.colorToCss,
+      ColorUtils.colorToCss,
     );
 
   Css.(
@@ -22,10 +22,11 @@ let make = (~row, ~col) => {
   let selector =
     React.useCallback2(
       (state: state) =>
-        state.matrix |> Matrix.getPixelColor(Coords.fromGrid(~row, ~col)),
+        state.matrix
+        |> Matrix.getPixelColor(Utils.gridPositionToCoords(~row, ~col)),
       (row, col),
     );
-  let coords = Coords.fromGrid(~row, ~col);
+  let coords = Utils.gridPositionToCoords(~row, ~col);
   let dispatch = Store.useDispatch();
   let color = Store.useSelector(selector);
 

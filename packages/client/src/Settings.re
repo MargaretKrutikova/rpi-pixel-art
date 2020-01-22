@@ -1,5 +1,7 @@
+open Models;
+
 let addColor = (color, array) => {
-  switch (color |> Color.cssToColor) {
+  switch (color |> ColorUtils.cssToColor) {
   | Some(rgb) => array->Belt.Array.concat([|rgb|])
   | None => array
   };

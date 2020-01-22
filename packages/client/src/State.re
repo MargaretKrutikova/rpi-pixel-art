@@ -1,3 +1,5 @@
+open Models;
+
 type state = {
   selectedColor: Color.t,
   matrix: Matrix.t,
@@ -18,7 +20,7 @@ let initialState = {
   isDragging: false,
 };
 
-let setPixelEffect = (pixel, dispatch) => {
+let setPixelEffect = (pixel, _) => {
   Api.sendPixelToLedMatrix(pixel) |> ignore;
   None;
 };
@@ -28,7 +30,7 @@ let clearMatrixEffect = _ => {
 };
 
 let setPixel = (coords, state) => {
-  let pixel: Matrix.pixel = {coords, color: state.selectedColor};
+  let pixel = Pixel.make(~coords, ~color=state.selectedColor);
   let matrix = state.matrix |> Matrix.setPixel(pixel);
   ({...state, matrix}, Some(setPixelEffect(pixel)));
 };

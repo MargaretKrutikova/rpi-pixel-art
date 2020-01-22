@@ -1,13 +1,7 @@
+open Models;
+
 [@bs.val]
 external unsafeParseInt: (string, int) => Js.Null.t(float) = "parseInt";
-
-type t = {
-  r: int,
-  g: int,
-  b: int,
-};
-
-let make = (~r, ~g, ~b) => {r, g, b};
 
 let stringToHex = string => {
   let radix = 16;
@@ -22,7 +16,7 @@ let stringToHex = string => {
   ->Belt.Option.flatMap(res => res);
 };
 
-let hexToRgb = (hex): option(t) => {
+let hexToRgb = (hex): option(Color.t) => {
   let parse = (ind, array) =>
     array
     ->Belt.Array.get(ind)
@@ -31,7 +25,7 @@ let hexToRgb = (hex): option(t) => {
 
   let parseColor = array => {
     switch (array |> parse(1), array |> parse(2), array |> parse(3)) {
-    | (Some(r), Some(g), Some(b)) => {r, g, b}->Some
+    | (Some(r), Some(g), Some(b)) => Color.make(~r, ~g, ~b)->Some
     | _ => None
     };
   };
@@ -49,4 +43,4 @@ let cssToColor = (color: Css.Types.Color.t) => {
   };
 };
 
-let colorToCss = ({r, g, b}) => `rgb((r, g, b));
+let colorToCss = ({r, g, b}: Color.t) => `rgb((r, g, b));

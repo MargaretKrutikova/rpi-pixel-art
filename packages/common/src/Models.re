@@ -4,10 +4,7 @@ module type Serializable = {
   let decode: Js.Json.t => t;
 };
 
-module Color: {
-  include Serializable;
-  let make: (~r: int, ~g: int, ~b: int) => t;
-} = {
+module Color = {
   type t = {
     r: int,
     g: int,
@@ -29,10 +26,7 @@ module Color: {
   };
 };
 
-module Coords: {
-  include Serializable;
-  let make: (~x: int, ~y: int) => t;
-} = {
+module Coords = {
   type t = {
     x: int,
     y: int,
@@ -47,10 +41,7 @@ module Coords: {
   };
 };
 
-module Pixel: {
-  include Serializable;
-  let make: (~coords: Coords.t, ~color: Color.t) => t;
-} = {
+module Pixel = {
   type t = {
     coords: Coords.t,
     color: Color.t,

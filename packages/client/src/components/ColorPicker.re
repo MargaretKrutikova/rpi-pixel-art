@@ -17,7 +17,7 @@ let make = (~className="") => {
                style([
                  width(px(Styles.colorSquareSize)),
                  height(px(Styles.colorSquareSize)),
-                 backgroundColor(rgbColor |> Color.colorToCss),
+                 backgroundColor(rgbColor |> ColorUtils.colorToCss),
                ])
              ),
              "border-2 mr-1 mb-1",

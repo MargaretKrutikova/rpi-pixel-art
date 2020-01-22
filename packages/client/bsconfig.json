@@ -22,7 +22,8 @@
     "bs-css",
     "bs-fetch",
     "re-classnames",
-    "reason-react-elmish"
+    "reason-react-elmish",
+    "@rpi-pixel-art/common"
   ],
   "refmt": 3
 }

@@ -1,27 +1,21 @@
-type pixel = {
-  coords: Coords.t,
-  color: Color.t,
+open Models;
+
+type t = array(Pixel.t);
+
+let getPixel = (coords, matrix: t) => {
+  matrix->Belt.Array.keep(pixel => coords == pixel.coords)->Belt.Array.get(0);
 };
 
-type t = array(pixel);
-
-let getPixel = (coords, matrix) => {
-  matrix
-  ->Belt.Array.keep(pixel => Coords.areEqual(coords, pixel.coords))
-  ->Belt.Array.get(0);
-};
-
-let getPixelColor = (coords, matrix) =>
+let getPixelColor = (coords, matrix: t) =>
   (matrix |> getPixel(coords))->Belt.Option.map(pixel => pixel.color);
 
-let unsetPixel = (pixel, matrix) =>
+let unsetPixel = (pixel: Pixel.t, matrix: t) =>
   switch (matrix |> getPixel(pixel.coords)) {
   | None => matrix
-  | Some(pixel) =>
-    matrix->Belt.Array.keep(p => !Coords.areEqual(p.coords, pixel.coords))
+  | Some(pixel) => matrix->Belt.Array.keep(p => p.coords != pixel.coords)
   };
 
-let setPixel = (pixel, matrix) => {
+let setPixel = (pixel: Pixel.t, matrix) => {
   switch (matrix |> getPixel(pixel.coords)) {
   | None => matrix->Belt.Array.concat([|pixel|])
   | Some(p) =>
@@ -29,7 +23,7 @@ let setPixel = (pixel, matrix) => {
       matrix;
     } else {
       matrix
-      ->Belt.Array.keep(p => !Coords.areEqual(p.coords, pixel.coords))
+      ->Belt.Array.keep(p => p.coords != pixel.coords)
       ->Belt.Array.concat([|pixel|]);
     }
   };
