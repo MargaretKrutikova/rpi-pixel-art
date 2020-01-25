@@ -7,9 +7,12 @@
     "dist"
   ],
   "scripts": {
-    "start": "ts-node-dev --no-notify src/index.ts",
-    "build": "npm run clean && npm run compile",
-    "clean": "rm -rf ./dist",
+    "build:bs": "bsb -make-world",
+    "start:bs": "bsb -make-world -w",
+    "clean:bs": "bsb -clean-world",
+    "start": "npm run start:bs && ts-node-dev --no-notify src/index.ts",
+    "build": "npm run build:bs && npm run clean && npm run compile",
+    "clean": "npm run clean:bs && rm -rf ./dist",
     "compile": "tsc -p tsconfig.build.json",
     "prepublishOnly": "npm run build",
     "sync-changes": "echo 'Changes will be pushed to Raspberry Pi' && nodemon --config nodemon.sync.json"
@@ -17,6 +20,7 @@
   "devDependencies": {
     "@types/rsync": "^0.4.30",
     "@types/ws": "^6.0.4",
+    "bs-platform": "^7.0.1",
     "chalk": "^3.0.0",
     "nodemon": "^2.0.2",
     "rsync": "^0.6.1",
@@ -25,6 +29,7 @@
   },
   "dependencies": {
     "rpi-led-matrix": "^1.7.2",
+    "@rpi-pixel-art/common": "^1.0.0",
     "ws": "^7.2.1"
   }
 }
