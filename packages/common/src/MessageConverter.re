@@ -1,7 +1,7 @@
 open Models;
 
 type protocol =
-  | SetPixel(Pixel.t)
+  | SetPixels(array(Pixel.t))
   | ClearPixel(Coords.t)
   | ClearMatrix;
 
@@ -32,9 +32,17 @@ module ProtocolMsg =
 
 module SetPixelMessage =
   ProtocolMsg({
-    include Pixel;
+    type t = array(Pixel.t);
     let operation = Operation.setPixel;
-    let toProtocol = data => SetPixel(data);
+    let toProtocol = data => SetPixels(data);
+    let encode = pixels =>
+      pixels->Belt.Array.map(Pixel.encode)->Js.Json.array;
+
+    let decode = json =>
+      Js.Json.decodeArray(json)
+      ->Belt.Option.mapWithDefault([||], array =>
+          array->Belt.Array.map(Pixel.decode)
+        );
   });
 
 module ClearPixelMessage =
@@ -55,7 +63,7 @@ module ClearMatrixMessage =
 
 let encode = msg =>
   switch (msg) {
-  | SetPixel(data) => SetPixelMessage.make(data) |> SetPixelMessage.encode
+  | SetPixels(data) => SetPixelMessage.make(data) |> SetPixelMessage.encode
   | ClearPixel(data) =>
     ClearPixelMessage.make(data) |> ClearPixelMessage.encode
   | ClearMatrix => ClearMatrixMessage.make() |> ClearMatrixMessage.encode
