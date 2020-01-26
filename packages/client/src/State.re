@@ -21,11 +21,17 @@ let initialState = {
 };
 
 let setPixelEffect = (pixel, _) => {
-  Api.sendPixelToLedMatrix(pixel) |> ignore;
+  Api.sendPixelToLedMatrix(MessageConverter.SetPixels([|pixel|])) |> ignore;
+  None;
+};
+
+let clearPixelEffect = (pixel, _) => {
+  Api.sendPixelToLedMatrix(MessageConverter.ClearPixel([|pixel|])) |> ignore;
   None;
 };
 
 let clearMatrixEffect = _ => {
+  Api.sendPixelToLedMatrix(MessageConverter.ClearMatrix) |> ignore;
   None;
 };
 

@@ -1,9 +1,7 @@
-open Models;
+let url = "http://localhost:8095/matrix";
 
-let url = "http://localhost:8095/pixel";
-
-let sendPixelToLedMatrix = pixel => {
-  let payload = pixel |> Pixel.encode |> Js.Json.stringify;
+let sendPixelToLedMatrix = (protocol: MessageConverter.protocol) => {
+  let payload = protocol |> MessageConverter.encode |> Js.Json.stringify;
   Js.Promise.(
     Fetch.fetchWithInit(
       url,

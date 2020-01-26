@@ -8,7 +8,7 @@ let addColor = (color, array) => {
 };
 
 let initialColor = Color.make(~r=255, ~g=0, ~b=0);
-let defaultColor = Css.lightgray;
+let defaultColor = Css.darkgray;
 
 let availableColors: array(Color.t) =
   Css.(
