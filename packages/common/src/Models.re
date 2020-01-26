@@ -1,9 +1,3 @@
-module type Serializable = {
-  type t;
-  let encode: t => Js.Json.t;
-  let decode: Js.Json.t => t;
-};
-
 module Color = {
   type t = {
     r: int,

@@ -1,12 +1,18 @@
 open Models;
 
+type setPixelsData = array(Pixel.t);
+type clearPixelsData = array(Coords.t);
+
 type protocol =
-  | SetPixels(array(Pixel.t))
-  | ClearPixel(Coords.t)
+  | SetPixels(setPixelsData)
+  | ClearPixel(clearPixelsData)
   | ClearMatrix;
 
 module type MsgConfig = {
-  include Serializable;
+  type t;
+  let encode: t => Js.Json.t;
+  let decode: Js.Json.t => t;
+
   let operation: Operation.t;
   let toProtocol: t => protocol;
 };
@@ -32,24 +38,22 @@ module ProtocolMsg =
 
 module SetPixelMessage =
   ProtocolMsg({
-    type t = array(Pixel.t);
+    type t = setPixelsData;
     let operation = Operation.setPixel;
     let toProtocol = data => SetPixels(data);
-    let encode = pixels =>
-      pixels->Belt.Array.map(Pixel.encode)->Js.Json.array;
 
-    let decode = json =>
-      Js.Json.decodeArray(json)
-      ->Belt.Option.mapWithDefault([||], array =>
-          array->Belt.Array.map(Pixel.decode)
-        );
+    let encode = Utils.encodeArray(Pixel.encode);
+    let decode = Utils.decodeArray(Pixel.decode);
   });
 
 module ClearPixelMessage =
   ProtocolMsg({
-    include Coords;
+    type t = clearPixelsData;
     let operation = Operation.clearPixel;
     let toProtocol = data => ClearPixel(data);
+
+    let encode = Utils.encodeArray(Coords.encode);
+    let decode = Utils.decodeArray(Coords.decode);
   });
 
 module ClearMatrixMessage =
