@@ -5,6 +5,7 @@ open State;
 let make = () => {
   let dispatch = Store.useDispatch();
   <div
+    className="border-2 border-gray-800"
     onMouseDown={_ => dispatch(State.MousePressed)}
     onMouseUp={_ => dispatch(MouseReleased)}>
     {Belt.Array.range(0, Dimensions.rows - 1)

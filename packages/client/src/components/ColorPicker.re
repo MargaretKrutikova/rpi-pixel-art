@@ -1,6 +1,15 @@
 open State;
 
-let selector = (model: state) => model.selectedColor;
+let selector = (model: state) =>
+  switch (model.activeTool) {
+  | Color(color) => Some(color)
+  | _ => None
+  };
+
+let isEqualColor = (selectedColor, currentColor) =>
+  selectedColor->Belt.Option.mapWithDefault(false, color =>
+    color == currentColor
+  );
 
 [@react.component]
 let make = (~className="") => {
@@ -17,12 +26,18 @@ let make = (~className="") => {
                style([
                  width(px(Styles.colorSquareSize)),
                  height(px(Styles.colorSquareSize)),
-                 backgroundColor(rgbColor |> Color.colorToCss),
+                 backgroundColor(rgbColor |> ColorUtils.colorToCss),
                ])
              ),
              "border-2 mr-1 mb-1",
-             Cn.ifTrue("border-gray-500 ", selectedColor != rgbColor),
-             Cn.ifTrue("shadow-outline", selectedColor == rgbColor),
+             Cn.ifTrue(
+               "border-gray-500 ",
+               !isEqualColor(selectedColor, rgbColor),
+             ),
+             Cn.ifTrue(
+               "shadow-outline",
+               isEqualColor(selectedColor, rgbColor),
+             ),
            ])}
            onClick={_ => dispatch(ColorSelected(rgbColor))}
          />

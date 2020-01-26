@@ -1,12 +1,14 @@
+open Models;
+
 let addColor = (color, array) => {
-  switch (color |> Color.cssToColor) {
+  switch (color |> ColorUtils.cssToColor) {
   | Some(rgb) => array->Belt.Array.concat([|rgb|])
   | None => array
   };
 };
 
 let initialColor = Color.make(~r=255, ~g=0, ~b=0);
-let defaultColor = Css.lightgray;
+let defaultColor = Css.darkgray;
 
 let availableColors: array(Color.t) =
   Css.(
@@ -19,9 +21,12 @@ let availableColors: array(Color.t) =
     |> addColor(purple)
     |> addColor(brown)
     |> addColor(beige)
-    |> addColor(teal)
-    |> addColor(black)
+    |> addColor(cyan)
     |> addColor(white)
+    |> addColor(teal)
+    |> addColor(pink)
+    |> addColor(skyblue)
+    |> addColor(lightcoral)
   );
 
 module Dimensions = {
