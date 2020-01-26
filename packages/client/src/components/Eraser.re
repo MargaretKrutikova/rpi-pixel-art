@@ -1,8 +1,57 @@
+open State;
+
+let selector = (model: state) =>
+  switch (model.activeTool) {
+  | Eraser => true
+  | _ => false
+  };
+
 [@react.component]
-let make = (~onClick=?) => {
+let make = () => {
+  let active = Store.useSelector(selector);
+  let dispatch = Store.useDispatch();
+
   <div
-    ?onClick
-    className="bg-teal-600 hover:bg-teal-500 text-white tracking-wider py-2 px-4 border-b-4 border-teal-800 hover:border-teal-600 rounded">
-    {"Erase" |> React.string}
+    onClick={_ => dispatch(State.EraserSelected)}
+    className={Cn.make([
+      "bg-gray-400 hover:bg-gray-300 text-white tracking-wider py-1 px-2
+      border-b-4 border-gray-600 hover:border-gray-500 hover:cursor-pointer rounded",
+      Cn.ifTrue("shadow-outline", active),
+    ])}>
+    <svg viewBox="0 0 64 64" width="40px" height="40px">
+      <path
+        fill="#ed7899"
+        d="M43.48,5.39,59,20.93a4,4,0,0,1,0,5.67L29.79,55.83A4,4,0,0,1,27,57H16.14a4,4,0,0,1-2.83-1.17L3.17,45.69a4,4,0,0,1,0-5.66L37.82,5.39A4,4,0,0,1,43.48,5.39Z"
+      />
+      <path
+        fill="#e0678f"
+        d="M8.6,34.6,3.17,40a4,4,0,0,0,0,5.66L13.31,55.83A4,4,0,0,0,16.14,57H27a4,4,0,0,0,2.83-1.17l0,0Z"
+      />
+      <path
+        fill="#85cbf8"
+        d="M43.48,5.39a4,4,0,0,0-5.66,0L21,22.18l21.2,21.2L59,26.6a4,4,0,0,0,0-5.67Z"
+      />
+      <path
+        fill="#ace3ff"
+        d="M43.48,5.39a4,4,0,0,0-5.66,0L36,7.18l21.2,21.2L59,26.6a4,4,0,0,0,0-5.67Z"
+      />
+      <path
+        fill="#faefde"
+        d="M1.39 46.64H26.7V49.47H1.39z"
+        transform="rotate(45 14.048 48.049)"
+      />
+      <path
+        fill="#8d6c9f"
+        d="M53 56H49a1 1 0 0 0 0 2h4a1 1 0 0 0 0-2zM28.61 20.72L27.2 22.13a1 1 0 1 0 1.41 1.41L30 22.13a1 1 0 0 0-1.41-1.41zM32.15 24.25l-1.41 1.41a1 1 0 1 0 1.41 1.41l1.41-1.41a1 1 0 0 0-1.41-1.41zM35.68 27.79l-1.41 1.41a1 1 0 1 0 1.41 1.41l1.41-1.41a1 1 0 0 0-1.41-1.41zM39.22 31.33l-1.41 1.41a1 1 0 1 0 1.41 1.41l1.41-1.41a1 1 0 1 0-1.41-1.41zM42.75 34.86l-1.41 1.42a1 1 0 0 0 1.42 1.41l1.41-1.42a1 1 0 0 0-1.42-1.41z"
+      />
+      <path
+        fill="#8d6c9f"
+        d="M59.73,20.22,44.18,4.68a5,5,0,0,0-7.07,0L2.46,39.33a5,5,0,0,0,0,7.07L12.6,56.54A5,5,0,0,0,16.14,58H43a1,1,0,0,0,0-2H31L59.71,27.31a5,5,0,0,0,0-7.09ZM23,56H16.14A3,3,0,0,1,14,55.12L3.88,45a3,3,0,0,1,0-4.24L21,23.65,40.76,43.44,29.09,55.12A3,3,0,0,1,27,56ZM58.3,25.89,57.17,27,45.92,15.78a1,1,0,1,0-1.41,1.41L55.76,28.44,42.17,42,22.38,22.24,38.53,6.09a3,3,0,0,1,4.24,0L58.31,21.64a3,3,0,0,1,0,4.25Z"
+      />
+      <path
+        fill="#8d6c9f"
+        d="M41.39,14.07a1,1,0,0,0,1.41-1.41L39.92,9.78a1,1,0,0,0-1.41,1.41Z"
+      />
+    </svg>
   </div>;
 };

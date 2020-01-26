@@ -3,7 +3,8 @@ module.exports = {
     extend: {}
   },
   variants: {
-    borderWidth: ["first", "hover", "focus", "last"]
+    borderWidth: ["first", "hover", "focus", "last"],
+    cursor: ["hover"]
   },
   plugins: []
 }

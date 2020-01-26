@@ -9,8 +9,8 @@ let getPixel = (coords, matrix: t) => {
 let getPixelColor = (coords, matrix: t) =>
   (matrix |> getPixel(coords))->Belt.Option.map(pixel => pixel.color);
 
-let unsetPixel = (pixel: Pixel.t, matrix: t) =>
-  switch (matrix |> getPixel(pixel.coords)) {
+let unsetPixel = (coords, matrix: t) =>
+  switch (matrix |> getPixel(coords)) {
   | None => matrix
   | Some(pixel) => matrix->Belt.Array.keep(p => p.coords != pixel.coords)
   };

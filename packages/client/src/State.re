@@ -30,8 +30,8 @@ let setPixelEffect = (pixel, _) => {
   None;
 };
 
-let clearPixelEffect = (pixel, _) => {
-  Api.sendPixelToLedMatrix(MessageConverter.ClearPixel([|pixel|])) |> ignore;
+let clearPixelEffect = (coords, _) => {
+  Api.sendPixelToLedMatrix(MessageConverter.ClearPixel([|coords|])) |> ignore;
   None;
 };
 
@@ -46,7 +46,9 @@ let setPixel = (coords, state) => {
     let pixel = Pixel.make(~coords, ~color);
     let matrix = state.matrix |> Matrix.setPixel(pixel);
     ({...state, matrix}, Some(setPixelEffect(pixel)));
-  | Eraser => (state, None)
+  | Eraser =>
+    let matrix = state.matrix |> Matrix.unsetPixel(coords);
+    ({...state, matrix}, Some(clearPixelEffect(coords)));
   };
 };
 
