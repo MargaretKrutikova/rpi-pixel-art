@@ -1,7 +1,7 @@
 type t = string;
 
-let setPixel = "SET_PIXEL";
-let clearPixel = "CLEAR_PIXEL";
+let setPixel = "SET_PIXELS";
+let clearPixel = "CLEAR_PIXELS";
 let clearMatrix = "CLEAR_MATRIX";
 
 let encode = (operation: t) => Json.Encode.string(operation);
