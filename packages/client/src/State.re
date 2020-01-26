@@ -1,23 +1,28 @@
 open Models;
 
+type tool =
+  | Color(Color.t)
+  | Eraser;
+
 type state = {
-  selectedColor: Color.t,
   matrix: Matrix.t,
+  activeTool: tool,
   isDragging: bool,
 };
 
 type action =
   | ColorSelected(Color.t)
   | PixelClicked(Coords.t)
+  | EraserSelected
   | MousePressed
   | MouseReleased
   | MouseMoved(Coords.t)
   | ClearMatrix;
 
 let initialState = {
-  selectedColor: Settings.initialColor,
   matrix: [||],
   isDragging: false,
+  activeTool: Color(Settings.initialColor),
 };
 
 let setPixelEffect = (pixel, _) => {
@@ -36,20 +41,25 @@ let clearMatrixEffect = _ => {
 };
 
 let setPixel = (coords, state) => {
-  let pixel = Pixel.make(~coords, ~color=state.selectedColor);
-  let matrix = state.matrix |> Matrix.setPixel(pixel);
-  ({...state, matrix}, Some(setPixelEffect(pixel)));
+  switch (state.activeTool) {
+  | Color(color) =>
+    let pixel = Pixel.make(~coords, ~color);
+    let matrix = state.matrix |> Matrix.setPixel(pixel);
+    ({...state, matrix}, Some(setPixelEffect(pixel)));
+  | Eraser => (state, None)
+  };
 };
 
 let reducer = (state, action) =>
   switch (action) {
   | PixelClicked(coords) => setPixel(coords, state)
-  | ColorSelected(color) => ({...state, selectedColor: color}, None)
+  | ColorSelected(color) => ({...state, activeTool: Color(color)}, None)
   | MousePressed => ({...state, isDragging: true}, None)
   | MouseReleased => ({...state, isDragging: false}, None)
   | MouseMoved(coords) =>
     state.isDragging ? setPixel(coords, state) : (state, None)
   | ClearMatrix => ({...state, matrix: [||]}, Some(clearMatrixEffect))
+  | EraserSelected => ({...state, activeTool: Eraser}, None)
   };
 
 module Store = {

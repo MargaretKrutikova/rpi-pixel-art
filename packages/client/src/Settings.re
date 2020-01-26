@@ -21,9 +21,12 @@ let availableColors: array(Color.t) =
     |> addColor(purple)
     |> addColor(brown)
     |> addColor(beige)
-    |> addColor(teal)
-    |> addColor(black)
+    |> addColor(cyan)
     |> addColor(white)
+    |> addColor(teal)
+    |> addColor(pink)
+    |> addColor(skyblue)
+    |> addColor(lightcoral)
   );
 
 module Dimensions = {
