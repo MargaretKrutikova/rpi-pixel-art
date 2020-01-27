@@ -4,7 +4,7 @@ import WebSocket from "ws"
 import bodyParser from "body-parser"
 import cors from "cors"
 
-const API_PORT = 8095
+const API_PORT = 8080
 const WS_PORT = 8999
 
 const app = express()
