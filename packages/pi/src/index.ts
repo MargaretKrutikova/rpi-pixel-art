@@ -10,7 +10,9 @@ const wait = (t: number) => new Promise(ok => setTimeout(ok, t))
     const matrix = new LedMatrix(matrixOptions, runtimeOptions)
     matrix.clear().brightness(100)
     matrix.sync()
-    const ws = new WebSocket("ws://192.168.1.188:8999")
+    const ws = new WebSocket("ws://rpi-matrix.margareta.dev/ws/", undefined, {
+      followRedirects: true
+    } as any)
 
     ws.onmessage = async message => {
       await draw(message.data as string)

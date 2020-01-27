@@ -1,4 +1,4 @@
-let url = "http://localhost:8095/matrix";
+let url = "https://rpi-matrix.margareta.dev/matrix";
 
 let sendPixelToLedMatrix = (protocol: MessageConverter.protocol) => {
   let payload = protocol |> MessageConverter.encode |> Js.Json.stringify;
