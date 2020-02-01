@@ -5,7 +5,8 @@
     "bootstrap": "lerna bootstrap --hoist",
     "clean": "lerna run clean",
     "build": "lerna run build",
-    "pub": "lerna publish"
+    "pub": "lerna publish",
+    "deploy:client": "npm run bootstrap && npm --prefix ./packages/client run webpack:production "
   },
   "devDependencies": {
     "lerna": "^3.20.2",
