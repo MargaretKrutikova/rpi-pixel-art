@@ -8,6 +8,7 @@
     "webpack": "webpack -w",
     "webpack:production": "NODE_ENV=production webpack",
     "server": "webpack-dev-server",
+    "deploy:netlify": "npm run clean && npm run build && npm run webpack:production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
