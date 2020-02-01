@@ -31,13 +31,7 @@ module.exports = {
         use: [
           "style-loader",
           { loader: "css-loader", options: { importLoaders: 1 } },
-          {
-            loader: "postcss-loader",
-            options: {
-              ident: "postcss",
-              plugins: [require("tailwindcss"), require("autoprefixer")]
-            }
-          }
+          "postcss-loader"
         ]
       }
     ]

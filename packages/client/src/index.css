@@ -1,6 +1,6 @@
+/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
 html,
 body {
@@ -16,3 +16,7 @@ body {
 main {
   padding: 20px;
 }
+
+/* purgecss end ignore */
+
+@tailwind utilities;
