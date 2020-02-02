@@ -9,7 +9,30 @@ const WS_PORT = 8999
 
 const app = express()
 const server = http.createServer(app)
+
+class WebSocketExt extends WebSocket {
+  isAlive: boolean = false
+  heartbeat = () => {
+    this.isAlive = true
+  }
+}
+
 const wss = new WebSocket.Server({ server })
+
+wss.on("connection", (ws: WebSocketExt) => {
+  ws.isAlive = true
+  ws.on("pong", () => (ws.isAlive = true))
+})
+
+setInterval(() => {
+  wss.clients.forEach(ws => {
+    const wsExt = ws as WebSocketExt
+    if (wsExt.isAlive === false) return ws.terminate()
+
+    wsExt.isAlive = false
+    ws.ping()
+  })
+}, 30000)
 
 const notifyWsClients = (message: string) => {
   wss.clients.forEach((ws: WebSocket) => {
