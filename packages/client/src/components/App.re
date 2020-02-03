@@ -3,6 +3,7 @@ let make = () => {
   let dispatch = State.Store.useDispatch();
 
   <main className="flex container mx-auto justify-between">
+    <Boards />
     <MatrixGrid />
     <div className="flex flex-col items-start ">
       <ColorPicker className="mb-6" />

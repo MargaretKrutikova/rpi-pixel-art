@@ -22,7 +22,10 @@
     "bs-css",
     "bs-fetch",
     "re-classnames",
-    "reason-react-elmish"
+    "reason-react-elmish",
+    "reason-apollo-hooks",
+    "reason-apollo"
   ],
+  "ppx-flags": ["@baransu/graphql_ppx_re/ppx6"],
   "refmt": 3
 }
