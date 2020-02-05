@@ -11,6 +11,7 @@ type state = {
 };
 
 type action =
+  | MatrixFetched(Matrix.t)
   | ColorSelected(Color.t)
   | PixelClicked(Coords.t)
   | EraserSelected
@@ -60,6 +61,7 @@ let reducer = (state, action) =>
   | MouseReleased => ({...state, isDragging: false}, None)
   | MouseMoved(coords) =>
     state.isDragging ? setPixel(coords, state) : (state, None)
+  | MatrixFetched(matrix) => ({...state, matrix}, None)
   | ClearMatrix => ({...state, matrix: [||]}, Some(clearMatrixEffect))
   | EraserSelected => ({...state, activeTool: Eraser}, None)
   };

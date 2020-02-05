@@ -6,7 +6,7 @@ let make = () => {
   let dispatch = Store.useDispatch();
   <div
     className="border-2 border-gray-800"
-    onMouseDown={_ => dispatch(State.MousePressed)}
+    onMouseDown={_ => dispatch(MousePressed)}
     onMouseUp={_ => dispatch(MouseReleased)}>
     {Belt.Array.range(0, Dimensions.rows - 1)
      ->Belt.Array.map(row =>

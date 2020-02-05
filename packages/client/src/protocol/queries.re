@@ -9,6 +9,27 @@ module BoardsQuery = [%graphql
   |}
 ];
 
+module BoardQuery = [%graphql
+  {|
+    query Boards($boardName: String!)
+      {
+        boards(where: { name: { _eq: $boardName }})
+          {
+            id
+            name
+            pixels
+              {
+                coordX
+                coordY
+                colorR
+                colorG
+                colorB
+              }
+          }
+      }
+  |}
+];
+
 // mutation UpdatePixel {
 //   update_pixels(where: {_and: [
 //     {board: {name: {_eq: "demo"}}}
@@ -35,17 +56,3 @@ module BoardsQuery = [%graphql
 //   insert_pixels(objects: {coordX: 0, coordY: 1, colorR: 0, colorG: 255, colorB: 0, board: {data: {name: "demo"}, on_conflict: {constraint: boards_name_key, update_columns: name}}}) {
 //     affected_rows
 //   }
-// }
-// query Boards {
-//   boards {
-//     id
-//     name
-//     pixels {
-//       coordX
-//       coordY
-//       colorR
-//       colorG
-//       colorB
-//     }
-//   }
-// }
