@@ -42,8 +42,8 @@ module SetPixelMessage =
     let operation = Operation.setPixel;
     let toProtocol = data => SetPixels(data);
 
-    let encode = Utils.encodeArray(Pixel.encode);
-    let decode = Utils.decodeArray(Pixel.decode);
+    let encode = JsonUtils.encodeArray(Pixel.encode);
+    let decode = JsonUtils.decodeArray(Pixel.decode);
   });
 
 module ClearPixelMessage =
@@ -52,8 +52,8 @@ module ClearPixelMessage =
     let operation = Operation.clearPixel;
     let toProtocol = data => ClearPixel(data);
 
-    let encode = Utils.encodeArray(Coords.encode);
-    let decode = Utils.decodeArray(Coords.decode);
+    let encode = JsonUtils.encodeArray(Coords.encode);
+    let decode = JsonUtils.decodeArray(Coords.decode);
   });
 
 module ClearMatrixMessage =

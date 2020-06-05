@@ -4,17 +4,17 @@ import WebSocket from "ws"
 import { matrixOptions, runtimeOptions } from "./MatrixConfig"
 import { Protocol, SetPixelsData, ClearPixelsData } from "./Types"
 
-const wait = (t: number) => new Promise(ok => setTimeout(ok, t))
+const wait = (t: number) => new Promise((ok) => setTimeout(ok, t))
 ;(async () => {
   try {
     const matrix = new LedMatrix(matrixOptions, runtimeOptions)
     matrix.clear().brightness(100)
     matrix.sync()
     const ws = new WebSocket("ws://rpi-matrix.margareta.dev/ws/", undefined, {
-      followRedirects: true
+      followRedirects: true,
     } as any)
 
-    ws.onmessage = async message => {
+    ws.onmessage = async (message) => {
       await draw(message.data as string)
     }
 
