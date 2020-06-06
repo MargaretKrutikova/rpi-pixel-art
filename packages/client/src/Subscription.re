@@ -1,12 +1,17 @@
 let connect = dispatch => {
-  let ws = WebSocket.WebSocket.make("ws://rpi-matrix.margareta.dev/ws/");
+  open WebSocket;
+  let ws = WebSocketClient.make(ApiUrls.wsApi);
+
   let handleOpen = () => {
-    Js.log("OPEN");
+    Js.log(" OPEN");
     ();
   };
-  let handleClose = evt => {
+
+  let handleClose = _ => {
+    Js.log("WEBSOCKET CLOSE");
     ();
   };
+
   let handleMessage = evt => {
     let mag = evt |> Obj.magic;
     switch (mag##data |> Json.parse) {
@@ -18,19 +23,19 @@ let connect = dispatch => {
     };
     ();
   };
-  let handleError = evt => {
+  let handleError = _ => {
+    Js.log("WEBSOCKET ERROR");
     ();
   };
-  WebSocket.(
-    ws
-    |> WebSocket.on @@
-    Open(handleOpen)
-    |> WebSocket.on @@
-    Close(handleClose)
-    |> WebSocket.on @@
-    Message(handleMessage)
-    |> WebSocket.on @@
-    Error(handleError)
-    |> ignore
-  );
+
+  ws
+  |> WebSocketClient.on @@
+  Open(handleOpen)
+  |> WebSocketClient.on @@
+  Close(handleClose)
+  |> WebSocketClient.on @@
+  Message(handleMessage)
+  |> WebSocketClient.on @@
+  Error(handleError)
+  |> ignore;
 };
