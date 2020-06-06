@@ -17,7 +17,8 @@ type action =
   | MousePressed
   | MouseReleased
   | MouseMoved(Coords.t)
-  | ClearMatrix;
+  | ClearMatrix
+  | WebSocketMsg(MessageConverter.protocol);
 
 let initialState = {
   matrix: [||],
@@ -62,6 +63,16 @@ let reducer = (state, action) =>
     state.isDragging ? setPixel(coords, state) : (state, None)
   | ClearMatrix => ({...state, matrix: [||]}, Some(clearMatrixEffect))
   | EraserSelected => ({...state, activeTool: Eraser}, None)
+  | WebSocketMsg(msg) =>
+    switch (msg) {
+    | SetPixels(data) =>
+      let one = data->Belt.Array.getExn(0);
+      let pixel = Pixel.make(~coords=one.coords, ~color=one.color);
+      let matrix = state.matrix |> Matrix.setPixel(pixel);
+      ({...state, matrix}, None);
+    //| ClearPixel(clearPixelsData) => setPixel(data)
+    //| ClearMatrix => setPixel(data)
+    }
   };
 
 module Store = {
