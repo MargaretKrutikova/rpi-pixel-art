@@ -28,3 +28,5 @@ let setPixel = (pixel: Pixel.t, matrix) => {
     }
   };
 };
+
+let decode = JsonUtils.decodeArray(Pixel.decode);
