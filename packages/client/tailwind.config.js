@@ -1,10 +1,13 @@
 module.exports = {
   theme: {
-    extend: {}
+    extend: {},
+    fontFamily: {
+      sans: ["Quicksand"],
+    },
   },
   variants: {
     borderWidth: ["first", "hover", "focus", "last"],
-    cursor: ["hover"]
+    cursor: ["hover"],
   },
-  plugins: []
+  plugins: [],
 }
