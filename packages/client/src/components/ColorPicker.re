@@ -11,12 +11,40 @@ let isEqualColor = (selectedColor, currentColor) =>
     color == currentColor
   );
 
+let getColorPickerMaxWidth = colorWidth => {
+  let numberOfColors = Settings.availableColors |> Belt.Array.length;
+
+  let numberOfRows = 2;
+  // add some more space to account for border around and space inbetween
+  (numberOfColors + 2) * colorWidth / numberOfRows;
+};
+
 [@react.component]
 let make = (~className="") => {
   let selectedColor = Store.useSelector(selector);
   let dispatch = Store.useDispatch();
 
-  <div className={Cn.make(["flex flex-wrap max-w-xs self-start", className])}>
+  let pickerWidth =
+    Css.(
+      style([
+        maxWidth(px(getColorPickerMaxWidth(Styles.colorSquareSize))),
+        media(
+          Styles.Breakpoint.down(`sm),
+          [
+            maxWidth(
+              px(getColorPickerMaxWidth(Styles.mobileColorSquareSize)),
+            ),
+          ],
+        ),
+      ])
+    );
+
+  <div
+    className={Cn.make([
+      "flex flex-wrap max-w-xs self-start",
+      pickerWidth,
+      className,
+    ])}>
     {Settings.availableColors
      ->Belt.Array.mapWithIndex((ind, rgbColor) =>
          <div
@@ -27,6 +55,13 @@ let make = (~className="") => {
                  width(px(Styles.colorSquareSize)),
                  height(px(Styles.colorSquareSize)),
                  backgroundColor(rgbColor |> ColorUtils.colorToCss),
+                 media(
+                   Styles.Breakpoint.down(`sm),
+                   [
+                     width(px(Styles.mobileColorSquareSize)),
+                     height(px(Styles.mobileColorSquareSize)),
+                   ],
+                 ),
                ])
              ),
              "border-2 mr-1 mb-1",

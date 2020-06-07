@@ -14,6 +14,10 @@ let pixelToCss = color => {
       backgroundColor(pixelColor),
       border(px(1), solid, rgb(240, 240, 240)),
       media(
+        Styles.Breakpoint.down(`md),
+        [width(px(Styles.mdPixelSize)), height(px(Styles.mdPixelSize))],
+      ),
+      media(
         Styles.Breakpoint.down(`sm),
         [
           width(px(Styles.mobilePixelSize)),

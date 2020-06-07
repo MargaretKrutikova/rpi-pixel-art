@@ -1,7 +1,9 @@
 let pixelSize = 20;
+let mdPixelSize = 15;
 let mobilePixelSize = 10;
 
 let colorSquareSize = 40;
+let mobileColorSquareSize = 30;
 
 module Breakpoint = {
   type t = [ | `sm | `md | `lg];
