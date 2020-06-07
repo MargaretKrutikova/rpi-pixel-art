@@ -25,12 +25,14 @@ Update the image on the server:
 
 ```sh
 docker pull margaretkru/rpi-led-matrix-server
-docker-compose restart
+docker-compose down
+docker-compose up -d
+docker image prune
 ```
 
 To run it locally:
 
 ```sh
-docker run -p 8095:8081 -p 8990:8999 -d rpi-pixel-art/server
+docker run -p 8095:8080 -p 8990:8999 -d rpi-pixel-art/server
 
 ```

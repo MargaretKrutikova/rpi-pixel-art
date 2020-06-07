@@ -6,7 +6,8 @@ import cors from "cors"
 import { InMemoryMatrixState } from "./MatrixState"
 import { IMatrixState, Protocol } from "./types"
 
-const API_PORT = 8081
+// Do not change these ports since they are bound to docker image
+const API_PORT = 8080
 const WS_PORT = 8999
 
 const app = express()
