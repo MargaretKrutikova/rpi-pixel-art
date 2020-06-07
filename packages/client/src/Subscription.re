@@ -12,14 +12,12 @@ let connect = dispatch => {
     ();
   };
 
-  let handleMessage = evt => {
-    let mag = evt |> Obj.magic;
-    switch (mag##data |> Json.parse) {
+  let handleMessage = message => {
+    switch (message |> MessageEvent.data |> Json.parse) {
     | None => ignore()
     | Some(data) =>
       let decoded = MessageConverter.decode(data);
       dispatch(State.WebSocketMsg(decoded));
-      Js.log(decoded);
     };
     ();
   };
